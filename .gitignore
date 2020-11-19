@@ -23,7 +23,6 @@ out/build/x64-Debug (default)/.cmake/api/v1/reply/index-2020-11-19T04-51-07-0096
 out/build/x64-Debug (default)/.cmake/api/v1/reply/codemodel-v2-b92b053eadee33a2c475.json
 out/build/x64-Debug (default)/.cmake/api/v1/reply/cmakeFiles-v1-a13ac0b6256de6ef4fdc.json
 out/build/x64-Debug (default)/.cmake/api/v1/reply/cache-v2-62bf06e099fb369aded9.json
-ColorGen.o
 cmake-build-release/ColorGen.rc
 cmake-build-release/ColorGen.exe.manifest
 *.exe
