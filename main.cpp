@@ -4,8 +4,6 @@
 #include <conio.h>
 #include <algorithm>
 #include <cctype>
-#include <string>
-#include <vector>
 
 #define string std::string
 #define start "-start"
