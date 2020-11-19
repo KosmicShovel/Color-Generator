@@ -8,7 +8,6 @@
 #define end "-end"
 #define steps "-steps"
 #define listName "-name"
-#define endl std::endl
 
 int main(int argc, char* argv[]) {
     if (argc < 9){
@@ -96,20 +95,16 @@ int main(int argc, char* argv[]) {
         std::cout << "\t\t" << listNamec << ".add(" << hex << ");\n";
     }
     std::cout << "\t}";
-    std::cout << "Press any key to continue..." << endl;
+    std::cout << "Press any key to continue..." << std::endl;
     _getch();
     return 0;
 }
 
 void ColorGen::showUsage() {
-    std::cerr << "Options:\n\t-start Color code for start color, (0xFF00AA, FF11AA, 255,14,60)\n\t-end Color code for end color, (0xFF00AA, FF11AA, 255,14,60)\n\t-steps amount of steps to take to transition from start to end\n\t-name name of the arraylist" << endl;
-    std::cout << "Press any key to continue..." << endl;
+    std::cerr << "Options:\n\t-start Color code for start color, (0xFF00AA, FF11AA, 255,14,60)\n\t-end Color code for end color, (0xFF00AA, FF11AA, 255,14,60)\n\t-steps amount of steps to take to transition from start to end\n\t-name name of the arraylist" << std::endl;
+    std::cout << "Press any key to continue..." << std::endl;
     _getch();
     return;
-}
-
-unsigned long ColorGen::createRGB(int r, int g, int b) {
-    return ((r & 0xff) << 16) + ((g & 0xff) << 8) + ((b & 0xff));
 }
 
 RGBSet_s* ColorGen::interpolate(RGBSet_s* startingColor, RGBSet_s* endColor, float percent) {
