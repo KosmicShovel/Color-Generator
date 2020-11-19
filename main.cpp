@@ -98,7 +98,8 @@ int main(int argc, char* argv[]) {
 
                 if ((s.find("java") != string::npos) || (s.find("c#") != string::npos) ||
                     (s.find("cs") != string::npos) || (s.find("cpp") != string::npos) ||
-                    (s.find("c++") != string::npos)) {
+                    (s.find("c++") != string::npos) || (s.find("py") != string::npos) ||
+                    (s.find("python") != string::npos)) {
                     langc = s;
                 } else {
                     std::cerr << "Can't detect language! - " << s << std::endl;
@@ -118,7 +119,7 @@ int main(int argc, char* argv[]) {
 }
 
 void ColorGen::showUsage() {
-    std::cerr << "Options:\n\t-start Color code for start color, (#00FF00, 0xFF00AA, FF11AA, 255,14,60)\n\t-end Color code for end color, (#00FF00, 0xFF00AA, FF11AA, 255,14,60)\n\t-steps amount of steps to take to transition from start to end\n\t-name name of the arraylist\n\t-lang Language to output as (Java, CS, CPP)" << std::endl;
+    std::cerr << "Options:\n\t-start Color code for start color, (#00FF00, 0xFF00AA, FF11AA, 255,14,60)\n\t-end Color code for end color, (#00FF00, 0xFF00AA, FF11AA, 255,14,60)\n\t-steps amount of steps to take to transition from start to end\n\t-name name of the arraylist\n\t-lang Language to output as (Java, C#, C++, Python)" << std::endl;
     std::cout << "Press any key to continue..." << std::endl;
     _getch();
     return;
@@ -140,6 +141,30 @@ RGBSet_s* ColorGen::interpolate(RGBSet_s* startingColor, RGBSet_s* endColor, flo
     return new RGBSet_s{r3, g3, b3};
 }
 
+void CStyleOutputGeneration(string braceBegin, string braceEnd, string wrapperBegin, string wrapperEnd, bool hasSemiColon, RGBSet_s* startColor, RGBSet_s* endColor, int stepsc, string lName, int tabAmount) {
+    std::cout << wrapperBegin << lName << wrapperEnd << braceBegin << std::endl;
+    string tabs = "";
+    for (int i = 0; i < tabAmount; ++i)
+        tabs += "\t";
+    string tabse = "";
+    for (int i = 0; i < tabAmount - 1; ++i)
+        tabse += "\t";
+    char hex[16];
+    sprintf_s(hex, "0x%02X%02X%02X", startColor->red, startColor->green, startColor->blue);
+    std::cout << tabs << " " << hex;
+    int lastI = 0;
+    for (int i = 0; i <= stepsc; ++i) {
+        float percent = (float)i / stepsc;
+        char hexI[16];
+        RGBSet_s* interpolated = ColorGen::interpolate(startColor, endColor, percent);
+        sprintf_s(hexI, "0x%02X%02X%02X", interpolated->red, interpolated->green, interpolated->blue);
+        std::cout << (i % 2 == 0 ? ", " : tabs + " ") << hexI << (i == stepsc ? "\n" : (i % 2 == 0 ? ",\n" : ""));
+        lastI = i;
+    }
+    std::cout << (lastI % 2 == 1 ? "\n" : "") << tabse << braceEnd << (hasSemiColon ? ";" : "") << std::endl;
+    return;
+}
+
 void ColorGen::outputGeneration(string langc, RGBSet_s* startColor, RGBSet_s* endColor, int stepsc, string lName) {
     if (langc.find("java") != string::npos) {
         std::cout << "\tprivate static ArrayList<Integer> " << lName << " = new ArrayList<Integer>();\n\n\tstatic {\n";
@@ -155,38 +180,14 @@ void ColorGen::outputGeneration(string langc, RGBSet_s* startColor, RGBSet_s* en
     }
 
     if ((langc.find("cs") != string::npos) || (langc.find("c#") != string::npos)) {
-        std::cout << "\t\tpublic static List<int> " << lName << " = new List<int> {" << std::endl;
-        char hex[16];
-        sprintf_s(hex, "0x%02X%02X%02X", startColor->red, startColor->green, startColor->blue);
-        std::cout << "\t\t\t " << hex;
-        int lastI = 0;
-        for (int i = 0; i <= stepsc; ++i) {
-            float percent = (float)i / stepsc;
-            char hexI[16];
-            RGBSet_s* interpolated = ColorGen::interpolate(startColor, endColor, percent);
-            sprintf_s(hexI, "0x%02X%02X%02X", interpolated->red, interpolated->green, interpolated->blue);
-            std::cout << (i % 2 == 0 ? ", " : "\t\t\t ") << hexI << (i == stepsc ? "\n" : (i % 2 == 0 ? ",\n" : ""));
-            lastI = i;
-        }
-        std::cout << (lastI % 2 == 1 ? "\n" : "") << "\t\t};" << std::endl;
-        return;
+        CStyleOutputGeneration("{", "}", "\t\tpublic static List<int> ", " = new List<int> ", 1, startColor, endColor, stepsc, lName, 3);
     }
-
+    else
     if ((langc.find("cpp") != string::npos) || (langc.find("c++") != string::npos)) {
-        std::cout << "\tstd::vector<int> " << lName << " = std::vector<int>{" << std::endl;
-        char hex[16];
-        sprintf_s(hex, "0x%02X%02X%02X", startColor->red, startColor->green, startColor->blue);
-        std::cout << "\t\t " << hex;
-        int lastI = 0;
-        for (int i = 0; i <= stepsc; ++i) {
-            float percent = (float)i / stepsc;
-            char hexI[16];
-            RGBSet_s* interpolated = ColorGen::interpolate(startColor, endColor, percent);
-            sprintf_s(hexI, "0x%02X%02X%02X", interpolated->red, interpolated->green, interpolated->blue);
-            std::cout << (i % 2 == 0 ? ", " : "\t\t ") << hexI << (i == stepsc ? "\n" : (i % 2 == 0 ? ",\n" : ""));
-            lastI = i;
-        }
-        std::cout << (lastI % 2 == 1 ? "\n" : "") << "\t};" << std::endl;
-        return;
+        CStyleOutputGeneration("{", "}", "\t\tstd::vector<int> ", " = std::vector<int>", 1, startColor, endColor, stepsc, lName, 3);
+    }
+    else
+    if ((langc.find("py") != string::npos) || (langc.find("python") != string::npos)) {
+        CStyleOutputGeneration("[", "]", "\t", " = ", 0, startColor, endColor, stepsc, lName, 2);
     }
 }
