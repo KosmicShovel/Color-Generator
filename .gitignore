@@ -9,3 +9,27 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 _deps
+out/build/x64-Debug (default)/.cmake/api/v1/query/client-MicrosoftVS/query.json
+out/build/x64-Debug (default)/VSInheritEnvironments.txt
+out/build/x64-Debug (default)/rules.ninja
+out/build/x64-Debug (default)/ColorGen.pdb
+out/build/x64-Debug (default)/ColorGen.ilk
+out/build/x64-Debug (default)/ColorGen.exe
+out/build/x64-Debug (default)/build.ninja
+out/build/x64-Debug (default)/.ninja_deps
+out/build/x64-Debug (default)/.ninja_log
+out/build/x64-Debug (default)/.cmake/api/v1/reply/target-ColorGen-Debug-020ae8687287b89ba740.json
+out/build/x64-Debug (default)/.cmake/api/v1/reply/index-2020-11-19T04-51-07-0096.json
+out/build/x64-Debug (default)/.cmake/api/v1/reply/codemodel-v2-b92b053eadee33a2c475.json
+out/build/x64-Debug (default)/.cmake/api/v1/reply/cmakeFiles-v1-a13ac0b6256de6ef4fdc.json
+out/build/x64-Debug (default)/.cmake/api/v1/reply/cache-v2-62bf06e099fb369aded9.json
+ColorGen.o
+cmake-build-release/ColorGen.rc
+cmake-build-release/ColorGen.exe.manifest
+*.exe
+*.cbp
+*.rc
+*.pdb
+*.ilk
+*.iml
+*.xml
